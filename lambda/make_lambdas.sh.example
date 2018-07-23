@@ -1,0 +1,4 @@
+#!/bin/bash
+for i in `seq 1 250`; do
+	aws --region us-west-1 lambda  create-function  --function-name gp-$i --role "your-role-arn" --runtime python2.7 --zip-file fileb://b.zip --handler lambda_function.lambda_handler --timeout 8
+done;
