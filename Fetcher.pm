@@ -252,9 +252,7 @@ sub do_get {
                         $self->downloaded + length( $d->Payload ) );
                     $self->calls( $self->calls + 1 );
                     $res = $js->decode( $d->Payload );
-                    if (    $d->FunctionError
-                        and $d->FunctionError =~ /Unhandled/ )
-                    {
+                    if ( defined( $res->{errorMessage} ) ) {
                         my $err =
                           $res->{errorMessage} =~
                           /(Too Many requests|HTTP Error 403)/i
