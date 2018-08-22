@@ -3,6 +3,9 @@ use strict;
 use warnings;
 
 use local::lib;
+use FindBin;
+use lib $FindBin::Bin. '/lib';
+
 use Data::Dumper;
 use Future::Utils qw/fmap_concat/;
 
