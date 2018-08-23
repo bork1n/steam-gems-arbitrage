@@ -27,5 +27,6 @@ Approximate scan time for 250 workers with default settings is 1000 seconds. In 
 
 # Run
 ```
+$ cpanm --installdeps .
 $ perl scan_market.pl
 ```
