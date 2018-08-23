@@ -2,27 +2,22 @@
 use strict;
 use warnings;
 
-use local::lib;
 use FindBin;
 use lib $FindBin::Bin. '/lib';
 
 use Data::Dumper;
 use Future::Utils qw/fmap_concat/;
 
-require Game;
-require Fetcher;
+use SGA::Game;
+use SGA::Fetcher;
 
-my $fetcher = Fetcher->new( gp_start => 1, gp_count => 250 );
+my $fetcher = SGA::Fetcher->new( gp_start => 1, gp_count => 250 );
 
 use constant {
-
-    #    PILE_PRICE_RUR  => 44,
     STEAM_COMISSION => 0.13,
     PER_PAGE        => 100,
-    INTEREST        => 0.10,    # at least 1% revenue
+    INTEREST        => 0.10,    # at least 10% interest
     GAME            => 'any',
-
-    #    GAME => 'tag_app_40700',
 };
 
 my $gems_price_1k = $fetcher->get_rur_price(
@@ -176,7 +171,7 @@ sub process_results {
         }
         $total++;
 
-        return Game->new(
+        return SGA::Game->new(
             id        => $game_id,
             item_name => $name,
             fetcher   => $fetcher

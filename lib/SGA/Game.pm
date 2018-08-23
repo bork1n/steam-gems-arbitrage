@@ -1,12 +1,11 @@
-package Game;
+package SGA::Game;
 
 use strict;
 use warnings;
 
-use local::lib;
 use Moo;
 use Future::Mojo;
-require Storage;
+use SGA::Storage;
 
 has [qw/id item_name fetcher forceupdate/] => ( is => 'rw' );
 has gems => (
@@ -24,7 +23,7 @@ sub _build_gems {
     my $self = shift;
     my $key  = 'games/' . $self->id;
     return $work->{$key} if $work->{$key};
-    my $f = Storage::get_item( 'games/' . $self->id, $self->cachetime )->else(
+    my $f = SGA::Storage::get_item( 'games/' . $self->id, $self->cachetime )->else(
         sub {
             my $old_data = shift;
             unless ( ref($old_data) ) {
@@ -87,7 +86,7 @@ sub update_goo {
                 $data->{gems} = $r->{goo_value};
             }
             $data->{changed} = time;
-            return Storage::set_item( 'games/' . $id, $data );
+            return SGA::Storage::set_item( 'games/' . $id, $data );
         }
     );
 

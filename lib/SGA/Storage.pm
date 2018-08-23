@@ -1,9 +1,8 @@
-package Storage;
+package SGA::Storage;
 
 use strict;
 use warnings;
 
-use local::lib;
 use Data::Dumper;
 use Future::Mojo;
 use JSON;

@@ -1,8 +1,7 @@
-package Fetcher;
+package SGA::Fetcher;
 use strict;
 use warnings;
 
-use local::lib;
 use Data::Dumper;
 use Future::Mojo;
 use Future::Utils qw/try_repeat_until_success/;
@@ -12,7 +11,7 @@ use Mojo::IOLoop::Subprocess;
 use Moose;
 use Paws;
 use Try::Tiny;
-require Storage;
+use SGA::Storage;
 
 use constant REST_TIME => 90;
 my $user_agent =
@@ -165,7 +164,7 @@ sub do_get_market_itemid {
     $l =~ /listings\/([^\?]+)/;
     my $key = $1;
 
-    return Storage::get_item( 'id/' . $key )->then(
+    return SGA::Storage::get_item( 'id/' . $key )->then(
         sub {
             my $v = shift;
             return Future->done( $v->{value} );
@@ -189,7 +188,7 @@ sub do_get_market_itemid {
                 sub {
                     shift =~ /Market_LoadOrderSpread\(\s*(\d+)\s*\)/;
                     my $id = $1;
-                    return Storage::set_item( 'id/' . $key,
+                    return SGA::Storage::set_item( 'id/' . $key,
                         { value => $id, updated => time } )
                       ->then( sub { return Future->done($id) } )
                       if $id;
